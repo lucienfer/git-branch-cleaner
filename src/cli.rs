@@ -1,7 +1,7 @@
 use clap::Parser;
 use std::io::{self, Write};
 
-use crate::utils::error_cli;
+use crate::utils::warning;
 
 #[derive(Parser, Debug)]
 #[command(version, about, long_about = None)]
@@ -13,6 +13,9 @@ pub struct CliArgs {
     /// Force deletion without asking
     #[arg(short, long)]
     pub force: bool,
+
+    #[arg(short, long)]
+    pub interactive: bool,
 
     /// Base branch to compare against
     #[arg(long, default_value = "main")]
@@ -38,7 +41,7 @@ pub fn confirm(prompt: &str) -> bool {
         "y" | "yes" | "n" | "no"
     );
     if !good_input {
-        error_cli("Enter a good input: y | yes | no | n");
+        warning("Enter a good input: y | yes | no | n");
         confirm(prompt)
     } else {
         matches!(input.trim().to_lowercase().as_str(), "y" | "yes")

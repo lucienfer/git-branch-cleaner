@@ -19,6 +19,7 @@ Options:
 - `--base` Specify the base branch used to detect merged branches.
 - `--dry-run` Display the branches that would be deleted, without actually deleting them.
 - `--force` Delete branches without asking for confirmation.
+- `--interactive` Choose which branches to delete one by one.
 
 ## Tests
 ```bash
