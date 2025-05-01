@@ -8,15 +8,15 @@ use crate::utils::error_cli;
 pub struct CliArgs {
     /// Don't actually delete anything
     #[arg(short, long)]
-    dry_run: bool,
+    pub dry_run: bool,
 
     /// Force deletion without asking
     #[arg(short, long)]
-    force: bool,
+    pub force: bool,
 
     /// Base branch to compare against
     #[arg(long, default_value = "main")]
-    base: String,
+    pub base: String,
 }
 
 /// Request confirmation to delete branch

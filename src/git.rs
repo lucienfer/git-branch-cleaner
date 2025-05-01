@@ -116,8 +116,14 @@ pub fn get_origin() -> Result<String, Box<dyn Error>> {
         .arg("origin")
         .output()?;
     if output.status.success() {
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        Ok(stdout.to_string())
+        let raw = String::from_utf8_lossy(&output.stdout);
+        let mut stdout = String::new();
+        for line in raw.lines() {
+            if let Some(stripped) = line.trim().strip_prefix("HEAD branch: ") {
+                stdout = stripped.to_string();
+            }
+        }
+        Ok(stdout)
     } else {
         let stderr = String::from_utf8_lossy(&output.stderr);
         Err(format!("Failed to get the name of the origin branch: {}", stderr).into())

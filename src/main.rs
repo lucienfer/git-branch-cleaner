@@ -4,22 +4,14 @@ mod git;
 mod utils;
 
 use clap::Parser;
+use cleaner::run;
 use cli::CliArgs;
-use std::process::Command;
 use utils::{error_cli, success};
 
 fn main() {
     let args = CliArgs::parse();
-    let output = Command::new("echo")
-        .arg("Hello, world")
-        .output()
-        .expect("Failed to execute echo");
-
-    if output.status.success() {
-        let stdout = String::from_utf8_lossy(&output.stdout);
-        success(&stdout);
-    } else {
-        let stderr = String::from_utf8_lossy(&output.stderr);
-        error_cli(&stderr);
-    }
+    match run(args) {
+        Ok(()) => success("git-branch-cleaner has finish her job."),
+        Err(e) => error_cli(&e.to_string()),
+    };
 }
