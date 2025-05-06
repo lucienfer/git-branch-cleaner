@@ -11,7 +11,7 @@ use utils::{error_cli, success};
 fn main() {
     let args = CliArgs::parse();
     match run(args) {
-        Ok(()) => success("git-branch-cleaner has finish her job."),
+        Ok(()) => success("Branch cleaning finished successfully."),
         Err(e) => error_cli(&e.to_string()),
     };
 }
