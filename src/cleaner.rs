@@ -2,7 +2,7 @@ use std::error::Error;
 
 use crate::{
     cli::{CliArgs, confirm},
-    git::{delete_branch, get_current_name, get_local_branches, get_merged_branches, get_origin},
+    git::{delete_branch, get_merged_branches, get_origin},
     utils::info,
 };
 
