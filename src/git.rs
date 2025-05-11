@@ -1,5 +1,19 @@
 use std::{error::Error, process::Command};
 
+/// Check if we are in a git repository
+///
+/// ## Return
+/// Result if we are or not in the function.
+pub fn is_git_repo() -> bool {
+    let output = Command::new("git")
+        .args(["rev-parse", "--is-inside-work-tree"])
+        .output();
+    match output {
+        Ok(output) => output.status.success(),
+        Err(_) => false,
+    }
+}
+
 /// Delete branch
 ///
 /// # Arguments

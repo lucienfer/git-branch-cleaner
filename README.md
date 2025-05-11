@@ -1,6 +1,5 @@
 # git-branch-cleaner
 
-
 ## Functionality
 - ✅ Automatically deletes merged Git branches
 - 🔍 Dry-run mode to preview deletions

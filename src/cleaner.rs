@@ -2,8 +2,8 @@ use std::error::Error;
 
 use crate::{
     cli::{CliArgs, confirm},
-    git::{delete_branch, get_merged_branches, get_origin},
-    utils::info,
+    git::{delete_branch, get_merged_branches, get_origin, is_git_repo},
+    utils::{error_cli, info},
 };
 
 ///Run the logic of the CLI tools
@@ -15,6 +15,10 @@ use crate::{
 /// `Ok(())` if the function is a success or an Error
 pub fn run(args: CliArgs) -> Result<(), Box<dyn Error>> {
     info("Tools start");
+
+    if !is_git_repo() {
+        error_cli("Your are not in a git repository.");
+    }
 
     let base = match args.base.as_str() {
         "main" => get_origin()?,
