@@ -83,7 +83,7 @@ pub fn get_merged_branches(base: &str) -> Result<Vec<String>, Box<dyn Error>> {
     }
 }
 
-///Change the current branch
+/// Change the current branch
 ///
 /// # Argument
 /// - `name` - &str
@@ -100,7 +100,7 @@ pub fn git_checkout(name: &str) -> Result<(), Box<dyn Error>> {
     }
 }
 
-///Get the name of the current branch
+/// Get the name of the current branch
 ///
 /// # Return
 /// The name of the current branch or an Error
@@ -119,7 +119,7 @@ pub fn get_current_name() -> Result<String, Box<dyn Error>> {
     }
 }
 
-///Get the name of the origin branch
+/// Get the name of the origin branch
 ///
 /// # Return
 /// return the name of the origin branch
@@ -143,3 +143,28 @@ pub fn get_origin() -> Result<String, Box<dyn Error>> {
         Err(format!("Failed to get the name of the origin branch: {}", stderr).into())
     }
 }
+
+/// Get the latest commit of the branch to dertermine if the branch is active
+pub fn get_latest_commit(branch: String) -> Result<String, Box<dyn Error>> {
+    let output = Command::new("git")
+        .args(["log", &branch, "--since", "1 month"])
+        .output()?;
+    if output.status.success() {
+        let raw = String::from_utf8_lossy(&output.stdout);
+        let mut stdout = String::new();
+        for line in raw.lines() {
+            if let Some(stripped) = line.trim().strip_prefix("HEAD branch: ") {
+                stdout = stripped.to_string();
+            }
+        }
+        Ok(stdout)
+    } else {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        Err(format!(
+            "Failed to get the latest commit of the branch {}: {}",
+            branch, stderr
+        )
+        .into())
+    }
+}
+hello world
