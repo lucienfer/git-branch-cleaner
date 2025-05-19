@@ -22,7 +22,7 @@ pub struct CliArgs {
     pub base: String,
 }
 
-/// Request confirmation to delete branch
+/// Confirmation is a safety before deleting the branch, user can check if he can delete the branch
 ///
 /// # Argument
 /// - `prompt` - &str

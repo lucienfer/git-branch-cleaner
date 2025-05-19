@@ -2,7 +2,7 @@ use std::error::Error;
 
 use crate::{
     cli::{CliArgs, confirm},
-    git::{delete_branch, get_merged_branches, get_origin, is_git_repo},
+    git::{delete_branch, get_current_name, get_merged_branches, get_origin, is_git_repo},
     utils::{error_cli, info},
 };
 
@@ -26,7 +26,8 @@ pub fn run(args: CliArgs) -> Result<(), Box<dyn Error>> {
     };
 
     let mut merged_branches = get_merged_branches(&base)?;
-    merged_branches.retain(|x| x != &base);
+    let current_branch = get_current_name()?;
+    merged_branches.retain(|x| x != &base && x != &current_branch);
     if merged_branches.is_empty() {
         info("No merged branches to delete.");
         return Ok(());
